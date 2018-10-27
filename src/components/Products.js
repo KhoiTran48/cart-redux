@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ProductItem from './ProductItem';
-import Message from './Message';
 class Products extends Component {
   
   render() {
@@ -9,13 +7,9 @@ class Products extends Component {
         <section class="section">
           <h1 class="section-heading">Danh Sách Sản Phẩm</h1>
           <div class="row">
-              <ProductItem/>
-              <ProductItem/>
-              
+              {this.props.children}
           </div>
-          
         </section>
-        <Message/>
       </div>
     );
   }

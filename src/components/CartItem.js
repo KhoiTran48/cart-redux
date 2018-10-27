@@ -1,37 +1,49 @@
 import React, { Component } from 'react';
-
+import {UPDATE_CART, DELETE_CART} from './../constants/Messages';
 class CartItem extends Component {
   
+    onUpdateCart=(product, quantity)=>{
+        this.props.onUpdateCart(product, quantity);
+        this.props.onChangeMess(UPDATE_CART);
+    }
+    onDeleteCart=(product)=>{
+        this.props.onDeleteCart(product);
+        this.props.onChangeMess(DELETE_CART);
+    }
   render() {
+      var {cart}=this.props;
     return (
       <tr>
         <th scope="row">
-            <img src="https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/H/H0/HH0H2/HH0H2?wid=445&hei=445&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=K7ik72"
+            <img src={cart.product.image}
                 alt="" class="img-fluid z-depth-0" />
         </th>
         <td>
             <h5>
-                <strong>Iphone 6 Plus</strong>
+                <strong>{cart.product.name}</strong>
             </h5>
         </td>
-        <td>15$</td>
+        <td>{cart.product.price}$</td>
         <td class="center-on-small-only">
-            <span class="qty">1 </span>
+            <span class="qty">{cart.quantity} </span>
             <div class="btn-group radio-group" data-toggle="buttons">
                 <label class="btn btn-sm btn-primary
-                    btn-rounded waves-effect waves-light">
+                    btn-rounded waves-effect waves-light"
+                    onClick={()=>this.onUpdateCart(cart.product,-1)}>
                     <a>—</a>
                 </label>
                 <label class="btn btn-sm btn-primary
-                    btn-rounded waves-effect waves-light">
+                    btn-rounded waves-effect waves-light"
+                    onClick={()=>this.onUpdateCart(cart.product,1)}>
                     <a>+</a>
                 </label>
             </div>
         </td>
-        <td>15$</td>
+        <td>{cart.product.price*cart.quantity}$</td>
         <td>
             <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top"
-                title="" data-original-title="Remove item">
+                title="" data-original-title="Remove item"
+                onClick={()=>this.onDeleteCart(cart.product)}>
                 X
             </button>
         </td>

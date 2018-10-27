@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class CartResult extends Component {
   
   render() {
+      var {totalAmount}=this.props
     return (
       <tr>
         <td colSpan="3"></td>
@@ -13,7 +14,7 @@ class CartResult extends Component {
         </td>
         <td>
             <h4>
-                <strong>15$</strong>
+                <strong>{totalAmount}$</strong>
             </h4>
         </td>
         <td colSpan="3">

@@ -1,37 +1,50 @@
-var initialState=[
-    {
-        id:1,
-        price:10,
-        description:"good price",
-        image:"",
-        name:"ip 7"
-    },
-    {
-        id:2,
-        price:5,
-        description:"good quality",
-        image:"",
-        name:"ip 6"
-    },
-    {
-        id:3,
-        price:4,
-        description:"good good",
-        image:"",
-        name:"ip 5"
-    },
-    {
-        id:4,
-        price:3,
-        description:"good to use",
-        image:"",
-        name:"ip 4"
-    }
-]
-const products=(state=initialState, action)=>{
-    switch(action.type){
+import * as Types from './../constants/ActionTypes';
+
+var cartsFromStore=JSON.parse(localStorage.getItem('cart'));
+
+var initialState=cartsFromStore ? cartsFromStore : [];
+const carts=(state=initialState, action)=>{
+    var {product, quantity,type}=action;
+    switch(type){
+        case Types.ADD_CART:
+            var index=state.findIndex((cart)=>{
+                return cart.product.id === product.id;
+            })
+            if(index===-1){
+                state.push({
+                    product,
+                    quantity
+                })
+            }else{
+                state[index].quantity+=quantity
+            }
+            localStorage.setItem('cart',JSON.stringify(state));
+            return [...state];
+        case Types.UPDATE_CART:
+            var index=state.findIndex((cart)=>{
+                return cart.product.id === product.id;
+            })
+            if(index===-1){
+                return [...state];
+            }else{
+                if((state[index].quantity+=quantity) ===0 ){
+                    state.splice(index,1);
+                }
+            }
+            localStorage.setItem('cart',JSON.stringify(state));
+            return [...state];
+        case Types.DELETE_CART:
+            var index=state.findIndex((cart)=>{
+                return cart.product.id === product.id;
+            })
+            if(index===-1){
+                return [...state];
+            }
+            state.splice(index,1);
+            localStorage.setItem('cart',JSON.stringify(state));
+            return [...state];
         default:
-            return state;
+            return [...state];
     }
 }
-export default products;
+export default carts;
